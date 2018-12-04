@@ -16,16 +16,16 @@ class HID_PT_UI(bpy.types.Panel):
         box.prop(context.scene, "HID_OnOffModName")
         brow = box.row(align=True)
         brow.alignment = 'EXPAND'
-        brow.operator("hid.subsonoff", text='OFF',icon='MESH_ICOSPHERE').subs = False
         brow.operator("hid.subsonoff", text='ON', icon='MOD_SUBSURF').subs = True
+        brow.operator("hid.subsonoff", text='OFF',icon='MESH_ICOSPHERE').subs = False
         
         row = layout.row(align=False)
         box = row.box()
         box.label(text =  'Armature switch')
         brow = box.row(align=True)
-        brow.operator("hid.armatureonoff", text='Pose',icon='OUTLINER_DATA_POSE').subs = 'POSE'
-        brow.operator("hid.armatureonoff", text='Rest', icon='OUTLINER_DATA_ARMATURE').subs = 'REST'
-        
+        brow.operator("hid.armatureonoff", text='Pose', icon='MESH_CIRCLE').subs = 'POSE'
+        brow.operator("hid.armatureonoff", text='Rest', icon='X').subs = 'REST'
+       
         
 class HID_OT_SubSurf(bpy.types.Operator):
     bl_idname = "hid.subsonoff"
@@ -51,7 +51,7 @@ class HID_OT_Armature(bpy.types.Operator):
     bl_idname = "hid.armatureonoff"
     bl_label = "Button"
     subs : bpy.props.StringProperty()
-
+    
     def execute(self, context):
         if bpy.context.selected_objects == []:
             for dat in bpy.data.objects:
