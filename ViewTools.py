@@ -46,7 +46,7 @@ class HID_PT_UI(bpy.types.Panel):
         box.label(text =  'Wire switch')
         brow = box.row(align=True)
         brow.operator("hid.wireonoff", text='+WIRE', icon='SHADING_WIRE').subs = True
-        brow.operator("hid.wireonoff", text='SOLID', icon='SHADING_SOLID').subs = False
+        brow.operator("hid.wireonoff", text='Base', icon='SHADING_SOLID').subs = False
        
         
 class HID_OT_SubSurf(bpy.types.Operator):
@@ -96,19 +96,39 @@ class HID_OT_Wire(bpy.types.Operator):
     subs : bpy.props.BoolProperty()
     
     def execute(self, context):
-        if bpy.context.selected_objects == []:
-            for dat in bpy.data.objects:
-                try:
-                    dat.show_wire = self.subs
-                except:
-                    pass
+        if self.subs:
+            if bpy.context.selected_objects == []:
+                for dat in bpy.data.objects:
+                    try:
+                        dat.show_wire = not dat.show_wire
+                    except:
+                        pass
+            else:
+                for dat in bpy.context.selected_objects:
+                    try:
+                        dat.show_wire = not dat.show_wire
+                    except:
+                        pass
         else:
-            for dat in bpy.context.selected_objects:
-                try:
-                    dat.show_wire = self.subs
-                except:
-                    pass
-
+            if bpy.context.selected_objects == []:
+                for dat in bpy.data.objects:
+                    try:
+                        if dat.display_type == 'WIRE':
+                            dat.display_type = 'TEXTURED'
+                        else:
+                            dat.display_type = 'WIRE'
+                    except:
+                        pass
+            else:
+                for dat in bpy.context.selected_objects:
+                    try:
+                        if dat.display_type == 'WIRE':
+                            dat.display_type = 'TEXTURED'
+                        else:
+                            dat.display_type = 'WIRE'
+                    except:
+                        pass
+            
         return{'FINISHED'}
 
 classes = (
